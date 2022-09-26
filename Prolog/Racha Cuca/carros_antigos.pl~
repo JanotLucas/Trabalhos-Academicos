@@ -98,6 +98,8 @@ alldifferent([KM_1 , KM_2, KM_3, KM_4, KM_5]),
    %12
    (KM_1 == '210 mil'; KM_5 == '210 mil'),
 
+
+
    %7
 
    ((Cor_1 == amarelo,(KM_2 == '140 mil';KM_3 == '140 mil';KM_4 == '140 mil';KM_5 == '140 mil'));
@@ -233,7 +235,7 @@ alldifferent([KM_1 , KM_2, KM_3, KM_4, KM_5]),
 
   %18
    ((Dono_2 == thales, Ano_1 == 1970, (Dono_3 == glenn;Dono_4 == glenn;Dono_5 == glenn));
-    (Dono_3 == thales,(Ano_1 == 1970;Ano_2 == 1970),(Dono_4 == glenn;Dono_5== glenn));
+    (Dono_3 == thales,(Ano_1 == 1970;Ano_2 == 1970);(Dono_4 == glenn;Dono_5== glenn));
     (Dono_4 == thales,(Ano_1 == 1970;Ano_2 == 1970;Ano_3==1970),Dono_5 == glenn)),
 
   %19
