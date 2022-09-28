@@ -5,11 +5,11 @@ while True:
         while True:
             b = input('Digite o segundo número: ')
             if b.isdigit():
-                if ',' or '.' in a:
+                if (',' or '.') in a:
                     a = float(a)
                 else:
                     a = int(a)
-                if ',' or '.' in b:
+                if (',' or '.') in b:
                     b = float(b)
                 else:
                     b = int(b)
