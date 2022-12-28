@@ -5,8 +5,9 @@ def adding_report() :
     report = ""     
     while True:         
         if report == "":             
-            report = input("Choose Report Type (\"A\" or \"T\")\nReport Types include All Items (\"A\") or Total Only (\"T\"): ")         
-        elif report == "A" :             
+            report = input("Choose Report Type (\"A\" or \"T\")\nReport Types include All Items (\"A\") "
+                           "or Total Only (\"T\"): ")         
+        elif report.upper() == "A" :             
             var = input("Enter an integer or \"Q\": ")                
             if var.isdigit():                 
                 total = total + int(var)                  
@@ -19,7 +20,7 @@ def adding_report() :
                 break             
             else:                 
                 print("Invalid input")                      
-        elif report == "T":             
+        elif report.upper() == "T":             
             var = input("Enter an integer or \"Q\": ")             
             if var.isdigit():                 
                 total = total + int(var)            
@@ -32,4 +33,5 @@ def adding_report() :
         else:             
             print("Invalid input")             
             report = ""                                                                                                  
-            adding_report()
+
+adding_report()
