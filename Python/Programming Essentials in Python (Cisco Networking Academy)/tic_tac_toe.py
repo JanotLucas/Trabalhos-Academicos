@@ -61,7 +61,7 @@ def victory_for(board, sign):
     # the player using 'O's or 'X's has won the gamedef victory_for(board, sign):
     if ((board[0][0] == sign and board[0][1] == sign and board[0][2] == sign) or (board[1][0] == sign and board[1][1] == sign and board[1][2] == sign) \
     or (board[2][0] == sign and board[2][1] == sign and board[2][2] == sign) or (board[0][0] == sign and board[1][1] == sign and board[2][2] == sign) \
-    or (board[0][2] == sign and board[2][2] == sign and board[2][0] == sign) or (board[0][0] == sign and board[1][0] == sign and board[2][0] == sign)\
+    or (board[0][2] == sign and board[1][1] == sign and board[2][0] == sign) or (board[0][0] == sign and board[1][0] == sign and board[2][0] == sign)\
     or (board[0][1] == sign and board[1][1] == sign and board[2][1] == sign) or (board[0][2] == sign and board[1][2] == sign and board[2][2] == sign)):
         return True
     else:
