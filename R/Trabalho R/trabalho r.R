@@ -24,7 +24,6 @@ trim <- function(x){
   x[(x > quantile(x, probs = c(0.25), na.rm=TRUE)-1.5*IQR(x, na.rm=TRUE)) & (x < quantile(x, probs = c(0.75), na.rm=TRUE)+1.5*IQR(x,na.rm=TRUE))]
 }
 
-
 mol_weight_hist <- ggplot() + geom_histogram(aes(x = trim(df$Molecular_weight),y=..density..),color="#e9ecef", bins= 30, na.rm = TRUE) +
   xlab('Molecular Weight') + ylab('Frequência Relativa')
 mol_weight_hist
@@ -33,6 +32,3 @@ AlogP_hist <- ggplot() + geom_histogram(aes(x = trim(df$AlogP),
   xlab('AlogP') + ylab('Frequência Relativa')
 AlogP_hist
 
-x <- trim(df$Molecular_weight)
-x
-trim(df$Molecular_weight)
