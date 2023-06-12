@@ -20,9 +20,9 @@ library(grid)
 
 # import 
 df <- read.csv('chembl.csv')
-
+plot(df)
 # str plot
-plot_str(df, fontSize = 30)
+plot_str(df, fontSize = 35)
 
 # summary
 plot_missing(df)
@@ -142,7 +142,6 @@ annotate_figure(hist, top = text_grob("Histograms of the quantitative variables"
                                               color = "black", face = "bold", size = 14))  
 
 
-## O que define se sao moleculas grandes ou pequenas?
 
 boxplot(df$Molecular_weight[between_index]~df$Type[between_index])
 
@@ -156,7 +155,10 @@ barplot(contagem,ylim = c(0, max(contagem) * 1.2),yaxt = "n")
 text(x = barplot(contagem), y = contagem, labels = paste0(round(porcentagens, 1), "%"), pos = 3, cex = 0.8)
 axis(2, at = seq(0, max(contagem) * 1.2, by = 500000))
 
+outlier_label_size <- 4
 
-boxplot(df$TPSA ~ df$Type)
-boxplot(df$RingCounts ~ df$Type)
-boxplot(df$AlogP ~ df$Type)
+plot_boxplot(df, by= 'Type', geom_boxplot_args = list(outlier.stroke = T))
+
+plot_correlation(na.omit(df %>% select(Molecular_weight,AlogP, NumHAcceptors, NumHDonors, NumRotatableBonds, RingCounts, TPSA)), maxcat = 5L)
+
+ggplot(df) + geom_point(aes(x=NumHAcceptors, y= TPSA, color = Type))
