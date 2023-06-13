@@ -1,4 +1,4 @@
-# Packages 
+##Installing and loading the necessary packages for data analysis and visualization
 install.packages('DataExplorer')
 install.packages("dplyr")
 install.packages("ggplot2")
@@ -18,19 +18,21 @@ library(gridExtra)
 library(grid)
 
 
-# import 
+## import data
 df <- read.csv('chembl.csv')
-plot(df)
-# str plot
+
+
+## Plotting a graph that displays the structure of the df data frame
 plot_str(df, fontSize = 35)
 
-# summary
+##Generating a statistical summary of the df data frame
 plot_missing(df)
 summary(df)
 
-#Name
+##Counting the number of missing values in the "Name" column of the df data frame
 sum(is.na(df$Name))
 
+##Finding the highest and lowest observation in column of the df data frame
 # Molecular_Weight
 df[which.max(df$Molecular_weight),]
 df[which.min(df$Molecular_weight),]
@@ -68,7 +70,7 @@ enzyme <- sum(df$Type == "Enzyme")
 cell <- sum(df$Type == "Cell")
 antibody <- sum(df$Type == "Antibody")
 
-# histogram
+# histograms
 trim <- function(x){
   x[(x > quantile(x, probs = c(0.25), na.rm=TRUE)-1.5*IQR(x, na.rm=TRUE)) & (x < quantile(x, probs = c(0.75), na.rm=TRUE)+1.5*IQR(x,na.rm=TRUE))]
 }
@@ -134,19 +136,15 @@ hist_trimmed
 
 hist <- ggarrange(mol_weight_hist, AlogP_hist, numHAcceptors_hist, numHDonors_hist, numRotatableBonds_hist, ringcounts_hist, tpsa_hist)
 hist
-               
+#plot of all trimmed histograms               
 annotate_figure(hist_trimmed, top = text_grob("Trimmed Histograms of the quantitative variables", 
                                       color = "black", face = "bold", size = 14))     
-
+#plot of all histograms   
 annotate_figure(hist, top = text_grob("Histograms of the quantitative variables", 
                                               color = "black", face = "bold", size = 14))  
 
 
-
-boxplot(df$Molecular_weight[between_index]~df$Type[between_index])
-
-trim(df$Molecular_weight)
-
+# Proportions
 between_index <- (df$Molecular_weight > quantile(df$Molecular_weight, probs = c(0.25), na.rm=TRUE)-1.5*IQR(df$Molecular_weight, na.rm=TRUE)) & (df$Molecular_weight < quantile(df$Molecular_weight, probs = c(0.75), na.rm=TRUE)+1.5*IQR(df$Molecular_weight,na.rm=TRUE))
 between_index
 contagem <- table(df$Type)
@@ -155,10 +153,20 @@ barplot(contagem,ylim = c(0, max(contagem) * 1.2),yaxt = "n")
 text(x = barplot(contagem), y = contagem, labels = paste0(round(porcentagens, 1), "%"), pos = 3, cex = 0.8)
 axis(2, at = seq(0, max(contagem) * 1.2, by = 500000))
 
-outlier_label_size <- 4
 
+#boxplot
 plot_boxplot(df, by= 'Type', geom_boxplot_args = list(outlier.stroke = T))
-
+# Corretation
 plot_correlation(na.omit(df %>% select(Molecular_weight,AlogP, NumHAcceptors, NumHDonors, NumRotatableBonds, RingCounts, TPSA)), maxcat = 5L)
-
-ggplot(df) + geom_point(aes(x=NumHAcceptors, y= TPSA, color = Type))
+# Regressions
+tpsavshacceptor <- ggplot(df)  + geom_point(aes(x=NumHAcceptors, y= TPSA)) + geom_smooth(mapping = aes(x=NumHAcceptors, y= TPSA),method='lm',color = 'red') 
+tpsavsAlogp <- ggplot(df)  + geom_point(aes(x=AlogP, y= TPSA))  + geom_smooth(mapping = aes(x=AlogP, y= TPSA),method='lm',color = 'red')
+ringvsalogp <- ggplot(df)  + geom_point(aes(x=AlogP, y= RingCounts)) + geom_smooth(mapping = aes(x=AlogP, y= RingCounts),method='lm',color = 'red') 
+rotatable <- ggplot(df)  + geom_point(aes(x=NumRotatableBonds, y= Molecular_weight)) + geom_smooth(mapping = aes(x=NumRotatableBonds, y= Molecular_weight),method='lm',color = 'red') 
+numhdonors1 <- ggplot(df) + geom_point(aes(x=NumHDonors, y= TPSA)) + geom_smooth(mapping = aes(x=NumHDonors, y= TPSA),method='lm',color = 'red')
+numhdonors2 <- ggplot(df)   + geom_point(aes(x=NumHDonors, y= AlogP)) + geom_smooth(mapping = aes(x=NumHDonors, y= AlogP),method='lm',color = 'red')
+numhacceptor <- ggplot(df) + geom_point(aes(x=NumHDonors, y= AlogP)) + geom_smooth(mapping = aes(x=NumHAcceptors, y= AlogP),method='lm',color = 'red')
+molecularweight <- ggplot(df)  + geom_point(aes(x=Molecular_weight, y= NumRotatableBonds))+ geom_smooth(mapping = aes(x=Molecular_weight, y= NumRotatableBonds),method='lm',color = 'red') 
+regressions <- ggarrange(tpsavshacceptor, tpsavsAlogp, ringvsalogp, rotatable, numhdonors1, numhdonors2, numhacceptor, molecularweight)
+# plot of the strongest regressions
+annotate_figure(regressions, top = text_grob("Scatter plots with regression line", color = "black", face = "bold", size = 14))
