@@ -20,6 +20,8 @@
 - The dataset was import to a R enviroment and then selected the specific data variables to this report.
 
 ## Chemical Compound Analysis Variables
+    - ChEMBL ID
+    - Name
     - SMILES
     - Molecular Formula
     - Exact Molecular Weight
